@@ -77,7 +77,7 @@ export default function Home() {
           copy="Every puppy has a big personality and a special kind of magic. Meet the cuties waiting to meet you."
         />
         <div className="puppy-grid">
-          {puppies.slice(0, 3).map((p) => (
+          {puppies.slice(-6).map((p) => (
             <PuppyCard key={p.id} puppy={p} />
           ))}
         </div>

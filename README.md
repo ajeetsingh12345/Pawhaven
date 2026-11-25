@@ -23,13 +23,13 @@ The application demonstrates:
 
 ### Puppy Catalogue
 
-The catalogue supports text search and filters for breed, gender and maximum price.
+The catalogue supports text search and filters for breed and gender. Puppy prices are not displayed.
 
 ![PawHaven puppy catalogue](docs/screenshots/puppies.png)
 
 ### Puppy Details
 
-Each catalogue entry has a dynamic details page with age, gender, breed, price and description.
+Each catalogue entry has a dynamic details page with age, gender, breed and description.
 
 ![PawHaven puppy details](docs/screenshots/puppy-details.png)
 
@@ -44,7 +44,7 @@ The about page explains the purpose and wellbeing-focused philosophy of the webs
 | Feature           | Description                                                                     |
 | ----------------- | ------------------------------------------------------------------------------- |
 | Home page         | Brand introduction, featured puppies, brand promise and call-to-action sections |
-| Puppy catalogue   | Name/breed search, breed filter, gender filter and price filter                 |
+| Puppy catalogue   | Name/breed search and filters for breed and gender                              |
 | Puppy details     | Dynamic profile data selected from the puppy ID in the route                    |
 | Enquiry flow      | Modal with a prefilled email enquiry link                                       |
 | About page        | Project story and PawHaven philosophy                                           |
@@ -220,9 +220,9 @@ The included `netlify.toml` provides the Netlify redirect that serves `index.htm
 
 ### Puppy Data
 
-`src/data/puppies.js` contains the six demo records. Each record has an ID, name, breed, age, gender, price, availability tag, image URL and description.
+`src/data/puppies.js` contains the 12 demo records. Each record has an ID, name, breed, age, gender, availability tag, image URL and description. The home page features the six additional listings, and the catalogue's breed filter is generated from all records.
 
-The catalogue uses `useMemo` to update results immediately when search or filter values change.
+The catalogue uses `useMemo` to update results immediately when search or filter values change. Its 12 demo records include additional breeds shown on the [TeddyPups U.A.E. puppy catalogue](https://puppy.instabizweb.com/puppies), including Korean Teacup Maltipoo, Korean Teacup Poodle, Pomeranian, Shih Tzu and Korean Teacup Pomeranian. The added names, ages, descriptions and availability tags are illustrative, not live listings.
 
 ### Puppy Details
 

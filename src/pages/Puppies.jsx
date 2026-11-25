@@ -5,8 +5,7 @@ import PuppyCard from "../components/PuppyCard";
 export default function Puppies() {
   const [q, setQ] = useState(""),
     [breed, setBreed] = useState("All"),
-    [gender, setGender] = useState("All"),
-    [max, setMax] = useState("5000");
+    [gender, setGender] = useState("All");
   const breeds = ["All", ...new Set(puppies.map((p) => p.breed))];
   const results = useMemo(
     () =>
@@ -14,10 +13,9 @@ export default function Puppies() {
         (p) =>
           (p.name + " " + p.breed).toLowerCase().includes(q.toLowerCase()) &&
           (breed === "All" || p.breed === breed) &&
-          (gender === "All" || p.gender === gender) &&
-          p.price <= Number(max),
+            (gender === "All" || p.gender === gender),
       ),
-    [q, breed, gender, max],
+      [q, breed, gender],
   );
   return (
     <>
@@ -51,14 +49,6 @@ export default function Puppies() {
               <option>All</option>
               <option>Male</option>
               <option>Female</option>
-            </select>
-          </label>
-          <label>
-            <span>Up to</span>
-            <select value={max} onChange={(e) => setMax(e.target.value)}>
-              <option value="5000">Any price</option>
-              <option value="2300">$2,300</option>
-              <option value="2500">$2,500</option>
             </select>
           </label>
         </div>

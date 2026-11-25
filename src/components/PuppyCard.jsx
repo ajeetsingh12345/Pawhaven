@@ -23,7 +23,6 @@ export default function PuppyCard({ puppy }) {
             <h3>{puppy.name}</h3>
             <p>{puppy.breed}</p>
           </div>
-          <span className="price">${puppy.price.toLocaleString()}</span>
         </div>
 
         <div className="puppy-meta">

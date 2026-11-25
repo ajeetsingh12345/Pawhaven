@@ -42,7 +42,6 @@ export default function Details() {
               <b>{p.breed}</b>
             </div>
           </div>
-          <h2 className="detail-price">${p.price.toLocaleString()}</h2>
           <p>{p.description}</p>
           <p className="small-disclaimer">
             Please contact us to confirm current availability and discuss

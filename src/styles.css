@@ -364,11 +364,6 @@ button {
   font-size: 12px;
   color: #948276;
 }
-.price {
-  font-weight: 700;
-  color: #765139;
-  font-size: 14px;
-}
 .puppy-meta {
   display: flex;
   gap: 15px;
@@ -613,9 +608,6 @@ button {
 }
 .detail-facts b {
   font-size: 13px;
-}
-.detail-price {
-  font: 700 28px "Playfair Display";
 }
 .detail-copy > p {
   font-size: 14px;
