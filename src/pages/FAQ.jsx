@@ -7,7 +7,7 @@ import SectionTitle from "../components/SectionTitle";
 const faqs = [
   [
     "How do I enquire about a puppy?",
-    "Visit the puppy profile you are interested in and use the enquiry button. Our demo site opens an email draft so you can get in touch.",
+    "Visit the puppy profile you are interested in and use the enquiry button to contact us on WhatsApp or open a prefilled email draft.",
   ],
   [
     "Can I visit before making a decision?",

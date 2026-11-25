@@ -12,6 +12,8 @@ export default function Details() {
         We couldn't find that puppy. <Link to="/puppies">Browse puppies</Link>
       </section>
     );
+  const enquiryMessage = `Hi PawHaven, I'm interested in ${p.name} (${p.breed}). Could you share current availability and next steps?`;
+  const whatsappLink = `https://wa.me/919905748469?text=${encodeURIComponent(enquiryMessage)}`;
   return (
     <section className="section detail">
       <Link to="/puppies" className="text-link">
@@ -64,15 +66,25 @@ export default function Details() {
             <span className="eyebrow">LET'S TALK PUPPIES</span>
             <h2>Ask us about {p.name}</h2>
             <p>
-              Send us an email and mention {p.name}. We’ll be happy to talk
-              through the next steps.
+              Choose how you’d like to enquire. Your message will include{" "}
+              {p.name} and the {p.breed} breed.
             </p>
-            <a
-              className="button"
-              href={`mailto:ak8271691@gmail.com?subject=${encodeURIComponent("Enquiry about " + p.name)}`}
-            >
-              Email PawHaven ↗
-            </a>
+            <div className="modal-actions">
+              <a
+                className="button"
+                href={whatsappLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <MessageCircle size={17} /> Enquire on WhatsApp
+              </a>
+              <Link
+                className="button button-outline"
+                to={`/puppies/${p.id}/enquire`}
+              >
+                Send an email enquiry
+              </Link>
+            </div>
           </div>
         </div>
       )}

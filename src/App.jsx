@@ -9,6 +9,7 @@ import FAQ from "./pages/FAQ";
 import Home from "./pages/Home";
 import HowItWorks from "./pages/HowItWorks";
 import Puppies from "./pages/Puppies";
+import PuppyEnquiry from "./pages/PuppyEnquiry";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function AnimatedRoutes() {
             <Route index element={<Home />} />
             <Route path="/puppies" element={<Puppies />} />
             <Route path="/puppies/:id" element={<Details />} />
+            <Route path="/puppies/:id/enquire" element={<PuppyEnquiry />} />
             <Route path="/about" element={<About />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/faq" element={<FAQ />} />

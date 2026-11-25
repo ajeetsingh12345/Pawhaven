@@ -1,12 +1,12 @@
 # PawHaven
 
-PawHaven is a responsive puppy discovery website built with React and Vite. It provides a polished frontend experience for exploring a sample puppy catalogue, reviewing individual profiles, learning about the PawHaven story and submitting demo enquiries.
+PawHaven is a responsive puppy discovery website built with React and Vite. It provides a polished experience for exploring a sample puppy catalogue, reviewing individual profiles, learning about the PawHaven story and submitting puppy enquiries.
 
 ![PawHaven home page](docs/screenshots/home.png)
 
 ## Project Overview
 
-PawHaven is a frontend-only demonstration. It does not include a database, authentication system, payment service, reservation service or email backend.
+PawHaven is a frontend demonstration with a Vercel serverless function for puppy enquiries. It does not include a database, authentication system, payment service or reservation service.
 
 The application demonstrates:
 
@@ -14,7 +14,7 @@ The application demonstrates:
 - Browser-side catalogue filtering and searching
 - Dynamic puppy detail pages
 - A demo contact form with HTML validation
-- An enquiry modal that opens an email draft
+- Puppy-specific enquiry forms delivered through Resend, plus WhatsApp enquiries
 - Shared navigation and footer layout
 - Route-level page transitions
 - Responsive desktop and mobile layouts
@@ -46,7 +46,7 @@ The about page explains the purpose and wellbeing-focused philosophy of the webs
 | Home page         | Brand introduction, featured puppies, brand promise and call-to-action sections |
 | Puppy catalogue   | Name/breed search and filters for breed and gender                              |
 | Puppy details     | Dynamic profile data selected from the puppy ID in the route                    |
-| Enquiry flow      | Modal with a prefilled email enquiry link                                       |
+| Enquiry flow      | Puppy-specific form emailed to PawHaven or a prefilled WhatsApp chat            |
 | About page        | Project story and PawHaven philosophy                                           |
 | How It Works page | Four-step puppy adoption journey                                                |
 | FAQ page          | Expandable accordion questions                                                  |
@@ -56,29 +56,32 @@ The about page explains the purpose and wellbeing-focused philosophy of the webs
 
 ## Technology Stack
 
-| Technology     | Purpose                                          |
-| -------------- | ------------------------------------------------ |
-| React 18       | Component-based user interface                   |
-| React DOM      | Browser rendering                                |
-| Vite           | Development server and production bundler        |
-| React Router 6 | Client-side routing                              |
-| Framer Motion  | Page and component animations                    |
-| Lucide React   | Interface icons                                  |
-| Custom CSS     | Layout, typography, responsive styling and theme |
-| Prettier       | Consistent source formatting                     |
+| Technology       | Purpose                                          |
+| ---------------- | ------------------------------------------------ |
+| React 18         | Component-based user interface                   |
+| React DOM        | Browser rendering                                |
+| Vite             | Development server and production bundler        |
+| React Router 6   | Client-side routing                              |
+| Framer Motion    | Page and component animations                    |
+| Lucide React     | Interface icons                                  |
+| Vercel Functions | Server-side puppy enquiry endpoint               |
+| Resend           | Email delivery for puppy enquiries               |
+| Custom CSS       | Layout, typography, responsive styling and theme |
+| Prettier         | Consistent source formatting                     |
 
 ## Application Routes
 
-| Route           | Page         | Responsibility                                                              |
-| --------------- | ------------ | --------------------------------------------------------------------------- |
-| `/`             | Home         | Hero, trust information, featured puppies, story and contact call-to-action |
-| `/puppies`      | Puppies      | Catalogue search and filtering                                              |
-| `/puppies/:id`  | Details      | Selected puppy profile and enquiry modal                                    |
-| `/about`        | About        | PawHaven story                                                              |
-| `/how-it-works` | How It Works | Puppy journey steps                                                         |
-| `/faq`          | FAQ          | Frequently asked questions                                                  |
-| `/contact`      | Contact      | Demo enquiry form                                                           |
-| Unknown route   | Not Found    | Friendly fallback with a link back home                                     |
+| Route                  | Page         | Responsibility                                                              |
+| ---------------------- | ------------ | --------------------------------------------------------------------------- |
+| `/`                    | Home         | Hero, trust information, featured puppies, story and contact call-to-action |
+| `/puppies`             | Puppies      | Catalogue search and filtering                                              |
+| `/puppies/:id`         | Details      | Selected puppy profile and WhatsApp/email enquiry options                   |
+| `/puppies/:id/enquire` | Enquiry      | Contact form for the selected puppy, delivered by the serverless API        |
+| `/about`               | About        | PawHaven story                                                              |
+| `/how-it-works`        | How It Works | Puppy journey steps                                                         |
+| `/faq`                 | FAQ          | Frequently asked questions                                                  |
+| `/contact`             | Contact      | Demo enquiry form                                                           |
+| Unknown route          | Not Found    | Friendly fallback with a link back home                                     |
 
 ## Project Structure
 
@@ -104,10 +107,13 @@ pawhaven/
 │   │   ├── About.jsx
 │   │   ├── HowItWorks.jsx
 │   │   ├── FAQ.jsx
+│   │   ├── PuppyEnquiry.jsx # Puppy-specific contact form
 │   │   └── Contact.jsx
 │   ├── App.jsx               # Route configuration and page transitions
 │   ├── main.jsx              # React entry point
 │   └── styles.css            # Complete responsive website theme
+├── api/
+│   └── send-enquiry.js       # Vercel function that emails puppy enquiries
 ├── index.html                # HTML metadata and Google font setup
 ├── package.json              # Scripts and dependencies
 ├── package-lock.json         # Reproducible dependency versions
@@ -135,6 +141,9 @@ flowchart TD
     J --> P[PuppyCard]
     J --> Q[puppies.js]
     K --> Q
+    G --> R[PuppyEnquiry]
+    R --> S[api/send-enquiry.js]
+    S --> T[Resend email API]
 ```
 
 ## Getting Started
@@ -160,6 +169,13 @@ Open the local address printed by Vite, normally:
 
 ```text
 http://localhost:5173/
+```
+
+The puppy enquiry API is available during local development through Vite. To test email delivery locally, create an ignored `.env.local` file with your Resend API key and verified sender:
+
+```text
+RESEND_API_KEY=re_your_api_key
+RESEND_FROM_EMAIL="PawHaven <enquiries@your-verified-domain.com>"
 ```
 
 ### Build for Production
@@ -198,6 +214,8 @@ npm run format
 
 The included `vercel.json` rewrites all routes to `index.html` so React Router URLs such as `/puppies/p1` and `/about` work on direct visits and page refreshes.
 
+For direct email delivery, add `RESEND_API_KEY` and `RESEND_FROM_EMAIL` in the Vercel project's environment variables and redeploy. `RESEND_FROM_EMAIL` must be a sender address verified with Resend. The enquiry function sends submitted details to `ak8271691@gmail.com`; the API key remains server-side.
+
 ## Deploy to Netlify
 
 1. Import the project into Netlify.
@@ -226,7 +244,7 @@ The catalogue uses `useMemo` to update results immediately when search or filter
 
 ### Puppy Details
 
-`src/pages/Details.jsx` reads the `id` parameter through `useParams()`, finds the matching record and renders that puppy's details. Unknown IDs display a not-found state.
+`src/pages/Details.jsx` reads the `id` parameter through `useParams()`, finds the matching record and renders that puppy's details. Its enquiry modal offers WhatsApp or the reference-style form at `/puppies/:id/enquire`. The form posts to `api/send-enquiry.js`, which sends the enquiry through Resend to `ak8271691@gmail.com`.
 
 ### Shared Layout
 
@@ -279,22 +297,11 @@ Update title, description and font links in `index.html`.
 ## Demo Limitations
 
 - Puppy information is illustrative and should not be treated as real availability.
-- The contact form validates and resets in the browser but does not send or store data.
+- The general contact form validates and resets in the browser but does not send or store data.
 - The newsletter alert is a local demonstration and is not connected to an email provider.
-- Enquiry actions open a `mailto:` draft for `hello@pawhaven.example`.
+- Automatic puppy enquiry emails require `RESEND_API_KEY` and a verified `RESEND_FROM_EMAIL` in the server environment. If these are missing or invalid, the form offers a prefilled email draft and WhatsApp as alternatives instead of showing a success message.
+- WhatsApp enquiries open a chat at `+91 9905748469` with the selected puppy's details prefilled.
 - Instagram and Facebook links are placeholders.
-- Email and telephone values contain example placeholders.
+- Contact details are configured in the site footer and puppy enquiry options.
 - Puppy and atmosphere photographs are loaded from Unsplash and require internet access.
 - No reservation, payment or inventory API is configured.
-
-## Before Deployment
-
-Replace the placeholder content in the source:
-
-1. Replace `hello@pawhaven.example`
-2. Replace `+1 (000) 000-0000`
-3. Replace social placeholder URLs
-4. Replace sample puppy records with licensed and verified data
-5. Replace Unsplash images with approved local or hosted images
-6. Connect the contact and newsletter forms to real services
-7. Add secure reservation and payment services if required
